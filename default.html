@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,29 +9,25 @@
 <style>body{display:none}</style>
     <link rel="stylesheet" type="text/css" href="ext/scui/a/css/desktop/combined.min.css" onerror="cssErr=1" />
 
-    <script>
+    <script src="ext/scui/a/js/common/jquery-2.1.4.min.js"></script>
+
+
+<script>
+function requireJsDepsCallback() { require(["common/common"]); }
 var baseUrl = 'ext/scui/';
 var globals = {
-  env:'prod',
-  versionNum:'334313',
-  mfaAccountRecoveryAllowed: false,
-  supportedTitles: null,
-  amTracker: 'UA-15984839-32',
-  amUrl: 'https://www.google-analytics.com/analytics.js',
   baseUrl: baseUrl,
   baseAssetUrl: baseUrl + 'a/',
-  webpackPublicPath: 'ext/scui/a/js/build/',
   apiUrl: '',
-  crewEmblemUrl: 'https://prod.cloud.rockstargames.com/crews/sc/{0}/{1}/publish/emblem/emblem_{2}.png',
+  crewEmblemUrl: 'http://prod.cloud.rockstargames.com/crews/sc/{0}/{1}/publish/emblem/emblem_{2}.png',
   waitingResponse: false,
   isAm: true,
   isAmCd: true,
   isAmEc: true,
-  isAmUI: false,
   size: 'desktop',
   signUpReCaptchaEnabled: false,
   signInReCaptchaEnabled: false,
-  scsServiceEnabled: false,
+  scsServiceEnabled: true,
   accountsServiceEnabled: true,
   crewsServiceEnabled: true,
   friendsServiceEnabled: true,
@@ -41,42 +36,84 @@ var globals = {
   statsServiceEnabled: true,
   gameachievementsServiceEnabled: true,
   avatarUrl: 'ext/scui/images/avatars/',
-  storeImageBaseUrl: 'https://prod.cloud.rockstargames.com/titles/{0}/{1}/',
+  storeImageBaseUrl: 'http://prod.cloud.rockstargames.com/titles/{0}/{1}/', 
   storeOrigin:'',
   redirectUrlWhitelist:'support.rockstargames.com,support.steampowered.com,rockstargames.com,socialclub.rockstargames.com',
+  versionNum:'52222',
   advertsEnabled:false,
   isOnlineMode:false,
   passMin:8,
   passMax:30,
-  passMaxSignin:128,
   passChars:" `-=~!@#$%^&*()_+[]\\{}|;':\",./<>?",
-  pattern:/^[A-z0-9\ \`\-\=\~\!\@\#\$\%\^\&\*\(\)\_\+\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?]{8,30}$/,
-  isOs: true,
-  osDt: '2018-09-10',
+  pattern:/^[A-Za-z0-9\ \`\-\=\~\!\@\#\$\%\^\&\*\(\)\_\+\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?]*$/,
   ajaxTimeout: 30000,
   slowAjaxMsgTimeout: 8000,
   scBaseUrl: 'http://socialclub.rockstargames.com/',
   homePageFriendsDelay: 3000,
   expireSocialCountsDays:7,
-  avatarCloudBase:'https://a.rsg.sc/',
-  policyVersions: {
-      pp: 7,
-      tos: 11,
-      eula: 10
-  }
+  avatarServiceEnabled:true,
+  customAvatarsEnabled:true,
+  avatarCloudBase:'https://a.rsg.sc/'
 };
 globals.cssBase = globals.baseAssetUrl + 'css';
+var require = {
 
+  paths: {
+    "hbs": "common/hbs",
+    "Handlebars": "common/hbs/handlebars",
+    "jquery": "common/jquery-2.1.4.min",
+    "jquery-ui": "common/jquery-ui-1.10.4.custom",
+    "jquery.bind.first":"common/jquery.bind.first",
+    "jTweetsAnywhere": "common/jTweetsAnywhere-1.2.1/jquery.jtweetsanywhere-1.2.1",
+    "jquery.localize": "common/jquery.localize",
+    "dropkick": "common/jquery.dropkick",
+    "xml2json": "common/jquery.xml2json",
+    "xmlToJson": "common/xmlToJson",
+    "backbone": "common/backbone-1.1.2",
+    "backbone-cache": "common/backbone.cache.amd",
+    "domReady" : "common/domReady",
+    "underscore": "common/underscore",
+    "moment": "common/moment-with-langs",
+    "utils": "common/utils",
+    "setup.environment": "desktop/setup.desktop",
+    "setup.environment.utils": "desktop/setup.desktop.utils",
+    "jvisible": "common/jquery.visible",
+    "am": "common/am/analyticsManager"
+  },
+  shim: {
+    "jquery-ui":{deps:["jquery"],exports:"$"},
+    "jquery.bind.first":{deps:["jquery"],exports:"$"},
+    "jTweetsAnywhere":{deps: ["jquery"],exports:"$"},
+    "xml2json":{deps:["jquery"],exports:"$"},
+    "common/jquery.spinner":{deps:["jquery"],exports:"$"},
+    "jquery.localize":{deps:["jquery","xml2json"],exports:"$"},
+    "dropkick":{deps:["jquery"],exports:"$"},
+    "jvisible":{deps:["jquery"],exports:"$"},
+    "common/antiscroll":{deps:["jquery"],exports:"$"}
+  },
+  baseUrl: 'ext/scui/a/' + 'js',
+  deps: ["desktop/common"],
+  callback: requireJsDepsCallback,
+  hbs: { disableI18n: true }, 
+  config: { noGlobal: false },
+};
 
 if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
   function waitForJs() { globals.awaitingJsLoad = true; }
   window.RGSC_JS_READY_TO_ACCEPT_COMMANDS = waitForJs;
 }
-</script>
-
-</head>
-<body>
+</script><script src="ext/scui/a/js/common/require.js"></script>
+      <script>
+          if (typeof jQuery === 'function') { define('jquery', function () { return jQuery; }); }
+      </script>
     
+</head>
+<body>   
+    
+
+
+
+
 <header id="headerWrapper">
     <div id="header">
         <div class="headerMask"></div>
@@ -87,7 +124,7 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
         <nav>
             <ul id="mainNav">
                 <li class="home" id="homeButton" tabindex="1"><a id="homeLink"><span rel="localize[Home]">Home</span></a></li>
-                <li class="stats" id="accomplishHeaderBtn" tabindex="2"><a id="statsLink"><span rel="localize[Accomplishments]">Accomplishments</span></a></li>
+                <li class="stats" id="statsButton" tabindex="2"><a id="statsLink"><span rel="localize[Stats]">Stats</span></a></li>
             </ul>
         </nav>
 
@@ -105,6 +142,8 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
             <a id="headerLoginOptionsButton" href="#" tabindex="9"><i class="scicon-settings"></i></a>
             <div id="headerLoginOptionsDrop">
                 <ul>
+                    <li><a href="#" id="menuSignOut" tabindex="12"><i class="scicon-nav_logout"></i><span rel="localize[SignOut]">Sign out</span></a></li>
+                    <li><a href="#" id="menuDeleteProfile" tabindex="13"><i class="scicon-trash"></i><span rel="localize[DeleteProfile]">Delete Local Profile</span></a></li>
                     <li><a href="#" id="menuExit" tabindex="14"><i class="scicon-nav_return"></i><span rel="localize[BackToGame]">Back to game</span></a></li>
                     <li><a href="#" id="menuQuitGame" tabindex="15"><i class="scicon-nav_power"></i><span rel="localize[QuitGame]">Quit game</span></a></li>
                 </ul>
@@ -164,14 +203,19 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
             </div>
         </div>
 
-        <div id="accomplishPanel" class="panel">
+        <div id="statsPanel" class="panel">
             <div class="sideMenuCol">
                 <ul class="sideMenu">
+                    <li><a href="#" id="statsLink2"><i></i><span rel="localize[Statistics]">Statistics</span></a></li>
                     <li><a href="#" id="awardsLink2"><i></i><span rel="localize[Accomplishments]">Accomplishments</span></a></li>
                 </ul>
             </div>
             <div class="contentWrapper">
                 <div class="topStrip clearfix">
+                    <div id="statsHeader" class="content">
+                        <h5 class="myStatsTitle" rel="localize[MyStats]">My Stats</h5>
+                        <h5 class="friendStatsTitle"></h5><h5 class="yourStatsTitle" rel="localize[You]">you</h5>
+                    </div>
                     <div id="achievementsHeader" class="content">
                         <h5 class="myStatsTitle" rel="localize[MyAccomplishments]">My Accomplishments</h5>
                         <h5 class="friendStatsTitle"></h5><h5 class="yourStatsTitle" rel="localize[You]">you</h5>
@@ -183,6 +227,11 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
                     <div class="box">
                         <div class="antiscroll-inner">
                             <div class="overview">
+                                <div id="statsContent" class="content">
+                                    <table id="statstable">
+                                        <tbody id="statsbody"></tbody>
+                                    </table>
+                                </div>
                                 <div id="achievementsContent" class="content">
                                     <table id="achievementstable">
                                         <tbody id="achievementsData2"></tbody>
@@ -229,7 +278,7 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
                 </div>
 
                 <div id="signInProfile" class="signIn">
-                    <form id="formSignInProfile" action="#" method="post" class="formSignIn">
+                    <form id="formSignInProfile" action="#" method="post" class="formSignIn" onsubmit="$('#buttonSignInProfile').click();return false;">
                         <h3>
                             <span rel="localize[SigninShort]">Sign in</span>
                         </h3>
@@ -241,7 +290,7 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
                             </p>
                             <p>
                                 <label for="signInPasswordProfile" rel="localize[Password]">Password</label>
-                                <input type="password" autocomplete="off" name="signInPasswordProfile" id="signInPasswordProfile" maxlength="128" class="text" placeholder="Password" rel="localize[Password]" tabindex="2" />
+                                <input type="password" autocomplete="off" name="signInPasswordProfile" id="signInPasswordProfile" maxlength="30" class="text" placeholder="Password" rel="localize[Password]" tabindex="2" />
                             </p>
                         </fieldset>
                         <label id="lblSignInErrorProfile" class="SignInError"></label>
@@ -297,20 +346,24 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
                 <div class="loadingMask" id="loading_selectprofile"><p rel="localize[Loading]">Loading...</p><span class="loading"></span></div>
             </div>
         </div>
-        <div id="cloudSave" class="panel">
+
+        <div id="deleteProfile" class="gold panel">
             <div class="inner">
-                <form>
-                    <h1><span class="title" rel="localize[CloudSaveOffline]">Cloud Save Offline</span>
-                    </h1>
-                    <div class="cloudSaveContent">
-                        <p class="preamble" rel="localize[CloudSaveOfflineText]">Cloud saves are unavailable in offline mode.  Only local save games will be available.</p>
+                <h1 rel="localize[DeleteProfileAndSavedGamesQuestion]">Delete local profile?</h1>
+                <div class="profilePanel">
+                    <img id="imgDeleteProfile" src="ext/scui/images/avatars/default.png" alt="" width="64" height="64" class="largeAvatar" />
+                    <div class="text">
+                        <h5 id="deleteProfileNickname" class="profilenickname">nickname here</h5>
+                        <span class="subText"></span>
                     </div>
-                    <div class="buttonActions">
-                        <div class="right">
-                            <a href="#" class="confirm btn btnPurple btnLarge" rel="localize[Continue]">Continue</a>
-                        </div>
-                    </div>
-                </form>
+                </div>
+                <label id="lblDeleteProfileError" class="errorText"></label>
+                <div><p id="deleteProfileInfo"></p></div>
+                <div class="panelButtonWrapper">
+                    <a class="btn btnGrey btnRounded btnLarge" id="buttonDeleteProfileNo" rel="localize[Cancel]">Cancel</a>
+                    <a class="btn btnRed btnRounded btnLarge" id="buttonDeleteProfileYes" rel="localize[ConfirmButtonText]">Confirm</a>
+                </div>
+                <input type="hidden" id="editRockstarId" />
             </div>
         </div>
         <div id="serverError" class="panel">
@@ -395,11 +448,11 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
                             <div class="antiscroll-inner">
                                 <div class="overview">
                                     <div id="myProfile" class="content">
-                                            <ul id="profileSettings" style="clear: left;">
+                                        <ul id="profileSettings">
                                                 <li class="clearfix">
-                                                    <a href="https://socialclub.rockstargames.com/settings" class="rowAnchor clearfix RGSCLoadExt" style="display: block;">
-                                                        <span class="settingLabel" rel="localize[OtherSettings]"></span>
-                                                        <span class="edit">https://socialclub.rockstargames.com/settings</span>
+                                                    <a href="#" class="rowAnchor clearfix deleteLocalUserData" data-field="deleteLocalUserData" style="display: block;">
+                                                        <span class="settingLabel deleteLocalUserData" rel="localize[DeleteProfileAndSavedGames]">Delete Local Profile?</span>
+                                                        <span class="deleteLocalUserData" id="deleteProfileLink" rel="localize[Delete]">Delete</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -419,9 +472,5 @@ if (window.RGSC_JS_READY_TO_ACCEPT_COMMANDS == undefined) {
 
 <div id="invisibleMask"></div>
     
-    <script type="text/javascript" src="ext/scui/a/js/build/common.d2ad8b302c681bedca50.chunk.js" charset="utf-8"></script>
-    <script type="text/javascript" src="ext/scui/a/js/build/game.ff9d1fb991d314b54112.js" charset="utf-8"></script>
-
 </body>
 </html>
-
